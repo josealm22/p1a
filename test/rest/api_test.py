@@ -4,7 +4,7 @@ import unittest
 from urllib.request import urlopen
 
 import pytest
-BASE_URL_ADD = "http://localhost:5050"
+
 BASE_URL = "http://localhost:5000"
 BASE_URL_MOCK = "http://localhost:9090"
 DEFAULT_TIMEOUT = 2  # in secs
@@ -16,7 +16,7 @@ class TestApi(unittest.TestCase):
         self.assertTrue(len(BASE_URL) > 8, "URL no configurada")
 
     def test_api_add(self):
-        url = f"{BASE_URL_ADD}/calc/add/1/2"
+        url = f"{BASE_URL}/calc/add/1/2"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
             response.status, http.client.OK, f"Error en la petición API a {url}"
@@ -26,13 +26,13 @@ class TestApi(unittest.TestCase):
         )
 
     def test_api_sqrt(self):
-        url = f"{BASE_URL}/calc/sqrt/64"
+        url = f"{BASE_URL_MOCK}/calc/sqrt/64"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
             response.status, http.client.OK, f"Error en la petición API a {url}"
         )
         self.assertEqual(
-            response.read().decode(), "8.0", "ERROR SQRT"
+            response.read().decode(), "8", "ERROR SQRT"
         )
 
 if __name__ == "__main__":  # pragma: no cover

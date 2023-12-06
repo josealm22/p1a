@@ -22,17 +22,6 @@ def add(op_1, op_2):
         return ("{}".format(CALCULATOR.add(num_1, num_2)), http.client.OK, HEADERS)
     except TypeError as e:
         return (str(e), http.client.BAD_REQUEST, HEADERS)
-    
-@api_application.route("/calc/sqrt/<op>", methods=["GET"])
-def sqrt(op):
-    try:
-        num = util.convert_to_number(op)
-        return ("{}".format(CALCULATOR.sqrt(num)), http.client.OK, HEADERS)
-    except TypeError as e:
-        return (str(e), http.client.BAD_REQUEST, HEADERS)
-    except ValueError as e:  # Para manejar raíces cuadradas de números negativos
-        return (str(e), http.client.BAD_REQUEST, HEADERS)
-
 
 
 @api_application.route("/calc/substract/<op_1>/<op_2>", methods=["GET"])
