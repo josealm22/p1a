@@ -32,7 +32,15 @@ class Calculator:
     def check_types(self, x, y):
         if not isinstance(x, (int, float)) or                                                not isinstance(y, (int, float)):
             raise TypeError("Parameters must be numbers")
+    def sqrt(self, x):
+        self.check_types(x, x)  # Verifica que x sea un número
 
+        if x < 0:
+            raise ValueError("Cannot calculate square root of a negative number")
+
+        return x ** 0.5
+
+        
 
 if __name__ == "__main__":  # pragma: no cover
     calc = Calculator()
