@@ -31,6 +31,7 @@ pipeline {
             stage('Unit') {
             agent { label 'linux'}
             steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                 unstash 'codigo-fuente'
                 sh '''
                     whoami
@@ -43,8 +44,9 @@ pipeline {
                     hostname
                     '''
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
-                    }
+                            }
                         }
+                    }
                    
         stage('Rest') {
             agent { label 'rest'}
@@ -87,10 +89,7 @@ pipeline {
                     }
 
                 }
-           
-                            
-
+          
+            }   
         
-     }        
-        
-}   
+        }   
