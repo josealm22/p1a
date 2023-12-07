@@ -45,6 +45,7 @@ pipeline {
                     agent { label 'test2'}
                     steps {
                         unstash 'codigo-fuente'
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                         bat '''
                             set FLASK_APP=app\\api.py
                             set FLASK_ENV=development
@@ -55,6 +56,7 @@ pipeline {
                             whoami
                             hostname
                         '''
+                        }
                     }    
                 }
 
