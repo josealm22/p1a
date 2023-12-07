@@ -31,6 +31,7 @@ pipeline {
                         unstash 'codigo-fuente'
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                             sh '''
+                                export WORKSPACE=home/test/workspace/jenkins2
                                 export PYTHONPATH=$WORKSPACE
                                 pytest --junitxml=result-unit.xml test/unit
                                 whoami
