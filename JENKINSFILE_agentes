@@ -7,7 +7,10 @@ pipeline {
             steps {
                 // Obtener código del repo
                 git 'https://github.com/josealm22/p1a.git'
-                stash name: 'codigo-fuente', includes: '**/*'
+                stash name: 'codigo-fuente', includes: '**/*' 
+                bat 'whoami'
+                bat 'hostname'
+                
             }
         }
         
@@ -37,6 +40,8 @@ pipeline {
                     export PYTHONPATH=$WORKSPACE
                     echo $PYTHONPATH
                     /home/test/.local/bin/pytest --junitxml=result-unit.xml test/unit
+                    whoami
+                    hostname
                     '''
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
                     }
@@ -55,7 +60,6 @@ pipeline {
                     start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
                     set PYTHONPATH=%WORKSPACE%
                     pytest --junitxml=result-rest.xml test\\rest
-                    
                     whoami
                     hostname
                     '''
@@ -77,6 +81,8 @@ pipeline {
                     unstash 'unit-test-results'
                     unstash 'rest-test-results'
                     junit 'result*.xml' 
+                    bat 'whoami'
+                    bat 'hostname'
                     }
 
                 }
