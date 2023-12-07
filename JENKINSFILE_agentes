@@ -21,7 +21,6 @@ pipeline {
             steps {
                 unstash 'codigo-fuente'
                 echo 'Eyyy, esto es Python. No hay que compilar nada!!!'
-                echo WORKSPACE
                 bat 'dir'
                 bat 'whoami'
                 bat 'hostname'
@@ -38,7 +37,7 @@ pipeline {
                     hostname
                     export WORKSPACE=/home/test/workspace/jenkins2
                     export PYTHONPATH=$WORKSPACE
-                    echo $PYTHONPATH
+                    echo $WORKSPACE
                     /home/test/.local/bin/pytest --junitxml=result-unit.xml test/unit
                     whoami
                     hostname
@@ -62,6 +61,7 @@ pipeline {
                     pytest --junitxml=result-rest.xml test\\rest
                     whoami
                     hostname
+                    dir
                     '''
                     stash name: 'rest-test-results', includes: 'result-rest.xml'
                         }
@@ -83,6 +83,7 @@ pipeline {
                     junit 'result*.xml' 
                     bat 'whoami'
                     bat 'hostname'
+                    bat 'dir'
                     }
 
                 }
