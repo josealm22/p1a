@@ -8,7 +8,7 @@ pipeline {
             agent { label 'principal'}
             steps {
                 // Obtener código del repo
-                url: 'https://github.com/josealm22/p1a.git'
+                git branch: 'feature_fix_racecond', url: 'https://github.com/josealm22/p1a.git'
                 stash name: 'codigo-fuente', includes: '**/*' 
                 bat 'whoami'
                 bat 'hostname'
