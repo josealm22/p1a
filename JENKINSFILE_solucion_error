@@ -7,9 +7,15 @@ pipeline {
         stage('Get Code') {
             agent { label 'principal'}
             steps {
-                // Obtener código del repo
-                git branch: 'feature_fix_racecond', url: 'https://github.com/josealm22/p1a.git'
-                stash name: 'codigo-fuente', includes: '**/*' 
+                script {
+            if (isUnix()) {
+                sh 'git clone -b feature_fix_racecond https://github.com/josealm22/p1a.git'
+            } else {
+                bat 'git clone -b feature_fix_racecond https://github.com/josealm22/p1a.git'
+            }
+            stash name: 'codigo-fuente', includes: '**/*'
+        }
+                
                 bat 'whoami'
                 bat 'hostname'
                 
