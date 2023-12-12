@@ -80,11 +80,7 @@ pipeline {
                     stash name: 'rest-test-results', includes: 'result-rest.xml'
                         }
                     }    
-                post {
-                always {
-                    cleanWs()
-                }
-            }
+               
                 }
                    
             }       
