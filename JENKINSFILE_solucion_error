@@ -32,6 +32,9 @@ pipeline {
             parallel {
             stage('Unit') {
             agent { label 'linux'}
+            tools {
+                git 'git_linux' 
+                    }
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                 unstash 'codigo-fuente'
