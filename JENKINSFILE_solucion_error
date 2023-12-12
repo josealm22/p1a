@@ -53,11 +53,7 @@ pipeline {
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
                             }
                         }
-                        post {
-                always {
-                    cleanWs()
-                }
-            }
+                        
                     }
                    
         stage('Rest') {
@@ -80,11 +76,7 @@ pipeline {
                     stash name: 'rest-test-results', includes: 'result-rest.xml'
                         }
                     } 
-                post {
-                always {
-                    cleanWs()
-                }
-            }
+                
                
                 }
                    
