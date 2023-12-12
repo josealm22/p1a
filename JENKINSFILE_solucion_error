@@ -43,6 +43,7 @@ pipeline {
                     whoami
                     hostname
                     '''
+                    sleep 5
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
                             }
                         }
