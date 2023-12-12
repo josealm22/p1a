@@ -41,7 +41,7 @@ pipeline {
                 sh '''
                     whoami
                     hostname
-                    export WORKSPACE=/home/test/workspace/jenkins2
+                    export WORKSPACE=/home/test/workspace/Jenkins-feature_fix_racecond
                     export PYTHONPATH=$WORKSPACE
                     echo $WORKSPACE
                     /home/test/.local/bin/pytest --junitxml=result-unit.xml test/unit
@@ -64,7 +64,7 @@ pipeline {
                     set FLASK_APP=app\\api.py
                     set FLASK_ENV=development
                     start flask run
-                    start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
+                    start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\Jenkins-feature_fix_racecond\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
                     set PYTHONPATH=%WORKSPACE%
                     pytest --junitxml=result-rest.xml test\\rest
                     whoami
