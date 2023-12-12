@@ -1,0 +1,95 @@
+pipeline {
+    agent none
+
+     stages {
+        stage('Get Code') {
+            agent { label 'principal'}
+            steps {
+                // Obtener código del repo
+                git branch: 'feature_fix_racecond', url: 'https://github.com/josealm22/p1a.git'
+                stash name: 'codigo-fuente', includes: '**/*' 
+                bat 'whoami'
+                bat 'hostname'
+                
+            }
+        }
+        
+           
+            
+        stage('Build') {
+            agent {label 'principal'}
+            steps {
+                unstash 'codigo-fuente'
+                echo 'Eyyy, esto es Python. No hay que compilar nada!!!'
+                bat 'dir'
+                bat 'whoami'
+                bat 'hostname'
+                }
+                    }
+        stage('Tests') {
+            parallel {
+            stage('Unit') {
+            agent { label 'linux'}
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
+                unstash 'codigo-fuente'
+                sh '''
+                    whoami
+                    hostname
+                    export WORKSPACE=/home/test/workspace/jenkins2
+                    export PYTHONPATH=$WORKSPACE
+                    echo $WORKSPACE
+                    /home/test/.local/bin/pytest --junitxml=result-unit.xml test/unit
+                    whoami
+                    hostname
+                    '''
+                    stash name: 'unit-test-results', includes: 'result-unit.xml'
+                            }
+                        }
+                    }
+                   
+        stage('Rest') {
+            agent { label 'rest'}
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
+                unstash 'codigo-fuente'
+                
+                bat '''
+                    set FLASK_APP=app\\api.py
+                    set FLASK_ENV=development
+                    start flask run
+                    start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
+                    set PYTHONPATH=%WORKSPACE%
+                    pytest --junitxml=result-rest.xml test\\rest
+                    whoami
+                    hostname
+                    dir
+                    '''
+                    stash name: 'rest-test-results', includes: 'result-rest.xml'
+                        }
+                    }    
+                
+                }
+                   
+            }       
+        }
+    
+        
+     
+        stage('Results') {
+                    agent { label 'principal'}
+                    steps {
+                    unstash 'codigo-fuente'
+                    unstash 'unit-test-results'
+                    unstash 'rest-test-results'
+                    junit 'result*.xml' 
+                    bat 'whoami'
+                    bat 'hostname'
+                    bat 'dir'
+                    }
+
+                }
+          
+            }   
+        
+        }   
