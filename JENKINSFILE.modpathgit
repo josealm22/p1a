@@ -4,7 +4,7 @@
     
      stages {
         stage('Get Code') {
-            agent { label 'principal'}
+            agent { label 'test3'}
             environment {
                 GIT_TOOL = 'git_windows'
             }
@@ -21,7 +21,7 @@
            
             
         stage('Build') {
-            agent {label 'principal'}
+            agent {label 'test3'}
             steps {
                 unstash 'codigo-fuente'
                 echo 'Eyyy, esto es Python. No hay que compilar nada!!!'
@@ -87,7 +87,7 @@
         
      
         stage('Results') {
-                    agent { label 'principal'}
+                    agent { label 'test3'}
                     steps {
                     unstash 'codigo-fuente'
                     unstash 'unit-test-results'
