@@ -1,13 +1,13 @@
 
     pipeline {
     agent none
-    tools {
-        // Reemplaza 'NombreDeGit' con el nombre que le diste a tu configuración de Git
-        git 'git_linux'
-    }
+    
      stages {
         stage('Get Code') {
             agent { label 'principal'}
+            environment {
+                GIT_TOOL = 'git_windows'
+            }
             steps {
                 // Obtener código del repo
                 git 'https://github.com/josealm22/p1a.git'
@@ -34,6 +34,9 @@
             parallel {
             stage('Unit') {
             agent { label 'linux'}
+            environment {
+                GIT_TOOL = 'git_linux'
+            }
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                 unstash 'codigo-fuente'
@@ -54,6 +57,9 @@
                    
         stage('Rest') {
             agent { label 'rest'}
+            environment {
+                GIT_TOOL = 'git_windows'
+            }
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
                 unstash 'codigo-fuente'
