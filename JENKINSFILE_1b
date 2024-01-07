@@ -40,8 +40,7 @@ pipeline {
             agent { label 'test3'}
             steps {
                 unstash 'codigo-fuente'
-                bat
-                '''
+                bat '''
                 coverage run --branch --source=app --omit=app\\__init__.py,app\\api.py -m pytest test\\unit 
                 coverage xml
                 '''
