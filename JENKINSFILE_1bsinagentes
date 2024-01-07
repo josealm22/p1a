@@ -14,7 +14,14 @@ pipeline {
             }
         }
         
-           
+        stage('Static') {
+            steps {
+                bat '''
+                flake8 --format=pylint app >flake8.out
+                '''
+                recordIssues tools: [flake8(name: 'Flake8', pattern: 'flake8.out')], qualityGates: [[threshold: 10, type: 'TOTAL', unstable: true], [threshold: 12, type: 'TOTAL', unstable: false]]
+            }
+        }
         
             stage('Unit') {
             
@@ -30,7 +37,9 @@ pipeline {
                     whoami
                     hostname
                     '''
+                
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
+                    junit 'result*.xml'
                             }
                         }
                     }
@@ -71,17 +80,7 @@ pipeline {
                    
                    
         
-        stage('Results') {
-                    
-                    steps {
-                    
-                    junit 'result*.xml' 
-                    bat 'whoami'
-                    bat 'hostname'
-                    bat 'dir'
-                    }
-
-                }
+        
     }    
 }    
           
