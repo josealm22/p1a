@@ -69,8 +69,8 @@ pipeline {
                 
                 }
                    
-            }       
-        }
+                   
+        
         stage('Results') {
                     
                     steps {
@@ -82,7 +82,7 @@ pipeline {
                     }
 
                 }
-        
-     
+    }    
+}    
           
             
