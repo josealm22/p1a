@@ -15,8 +15,7 @@ pipeline {
         }
         
            
-        stage('Tests') {
-            parallel {
+        
             stage('Unit') {
             
             steps {
@@ -86,6 +85,4 @@ pipeline {
         
      
           
-            }   
-        
-        }   
+            
