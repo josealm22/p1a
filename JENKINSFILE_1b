@@ -15,17 +15,6 @@ pipeline {
         }
         
            
-            
-        stage('Build') {
-            agent {label 'principal'}
-            steps {
-                unstash 'codigo-fuente'
-                echo 'Eyyy, esto es Python. No hay que compilar nada!!!'
-                bat 'dir'
-                bat 'whoami'
-                bat 'hostname'
-                }
-                    }
         stage('Tests') {
             parallel {
             stage('Unit') {
@@ -76,19 +65,6 @@ pipeline {
     
         
      
-        stage('Results') {
-                    agent { label 'principal'}
-                    steps {
-                    unstash 'codigo-fuente'
-                    unstash 'unit-test-results'
-                    unstash 'rest-test-results'
-                    junit 'result*.xml' 
-                    bat 'whoami'
-                    bat 'hostname'
-                    bat 'dir'
-                    }
-
-                }
           
             }   
         
