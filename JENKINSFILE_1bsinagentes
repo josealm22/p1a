@@ -34,10 +34,10 @@ pipeline {
                     set PYTHONPATH=%WORKSPACE%
                     echo %WORKSPACE%
                     pytest --junitxml=result-unit.xml test\\unit
-                    junit 'result*.xml'
                     whoami
                     hostname
                     '''
+                    junit 'result*.xml'
                 
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
                     
