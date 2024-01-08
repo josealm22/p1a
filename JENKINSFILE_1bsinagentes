@@ -39,7 +39,7 @@ pipeline {
                     '''
                 
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
-                    junit 'result*.xml'
+                    
                             }
                         }
                     }
@@ -68,6 +68,7 @@ pipeline {
                     start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
                     set PYTHONPATH=%WORKSPACE%
                     pytest --junitxml=result-rest.xml test\\rest
+                    junit 'result*.xml'
                     whoami
                     hostname
                     dir
