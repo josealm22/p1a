@@ -55,6 +55,15 @@ pipeline {
                 cobertura coberturaReportFile: 'coverage.xml', conditionalCoverageTargets: '100,70,80', lineCoverageTargets: '100,80,95', failUnstable: false
             }
             }
+
+            stage('Security') {
+                steps {
+                    bat'''
+                        bandit --exit-zero -r . -f custom -o bandit.out --severity-level medium --msg-template "{abspath}:{line}: [{test_id}] {msg}"
+                    '''
+                    recordIssues tools: [pyLint(name: 'Bandit', pattern: 'bandit.out')], qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true], [threshold: 2, type: 'TOTAL', unstable: false]]
+                }
+            }
                    
         
                    
