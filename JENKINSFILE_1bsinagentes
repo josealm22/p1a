@@ -37,13 +37,37 @@ pipeline {
                     whoami
                     hostname
                     '''
-                    junit 'result*.xml'
+                    
                 
                     stash name: 'unit-test-results', includes: 'result-unit.xml'
                     
-                            }
-                        }
                     }
+                }
+            }
+
+            stage('Rest') {
+            
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
+                
+                
+                bat '''
+                    set FLASK_APP=app\\api.py
+                    set FLASK_ENV=development
+                    start flask run
+                    start java -jar C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock\\wiremock.jar --port 9090 --root-dir C:\\ProgramData\\Jenkins\\.jenkins\\agent-test2\\workspace\\jenkins2\\test\\wiremock
+                    set PYTHONPATH=%WORKSPACE%
+                    pytest --junitxml=result-rest.xml test\\rest
+                    '''
+                    unstash 'unit-test-results'
+                    junit 'result*.xml'
+                        }
+                    }    
+                
+                
+                   
+                  
+            }
             stage('cobertura') {
             
             steps {
@@ -53,7 +77,7 @@ pipeline {
                 coverage xml
                 '''
                 cobertura coberturaReportFile: 'coverage.xml', conditionalCoverageTargets: '100,70,80', lineCoverageTargets: '100,80,95', failUnstable: false
-            }
+                }
             }
 
             stage('Security') {
@@ -64,13 +88,7 @@ pipeline {
                     recordIssues tools: [pyLint(name: 'Bandit', pattern: 'bandit.out')], qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true], [threshold: 2, type: 'TOTAL', unstable: false]]
                 }
             }
-                   
-        
-                   
-                   
-        
-        
-    }    
+        }    
 }    
           
             
