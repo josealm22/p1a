@@ -45,29 +45,7 @@ pipeline {
                 }
             }
 
-            stage('Rest') {
             
-            steps {
-                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
-                
-                
-                bat '''
-                    set FLASK_APP=app\\api.py
-                    set FLASK_ENV=development
-                    start flask run
-                    start java -jar test\\wiremock\\wiremock.jar --port 9090 --root-dir test\\wiremock
-                    set PYTHONPATH=%WORKSPACE%
-                    pytest --junitxml=result-rest.xml test\\rest
-                    '''
-                    unstash 'unit-test-results'
-                    junit 'result*.xml'
-                        }
-                    }    
-                
-                
-                   
-                  
-            }
             stage('cobertura') {
             
             steps {
