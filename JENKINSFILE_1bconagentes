@@ -4,7 +4,7 @@ pipeline {
      stages {
         stage('Obtener código y análisis estático') {
             parallel {  
-                stage{ ('Get code')  
+                stage ('Get code'){
                 agent {label 'agente1'}       
                     steps {
                     // Obtener código del repo
