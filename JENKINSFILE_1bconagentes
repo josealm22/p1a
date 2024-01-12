@@ -88,6 +88,10 @@ pipeline {
                 agent {label 'agente2'}
                     steps {
                         bat'''
+                            set FLASK_APP=app\\api.py
+                            set FLASK_ENV=development
+                            start flask run
+                            start java -jar test\\wiremock\\wiremock.jar --port 9090 --root-dir test\\wiremock
                             E:\\CursoAvanzadoDevops\\Actividad2\\Jmeter\\apache-jmeter-5.6.2\\bin\\jmeter -n -t test\\jmeter\\flask.jmx -f -l flask.jtl
                         '''
                         perfReport sourceDataFiles: 'flask.jtl'
