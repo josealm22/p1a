@@ -77,8 +77,9 @@ pipeline {
                 coverage xml
                 '''
                 
-                cobertura coberturaReportFile: 'coverage.xml', conditionalCoverageTargets: '100,80,90', lineCoverageTargets: '100,85,95', failUnstable: false
+                
                 }
+                cobertura coberturaReportFile: 'coverage.xml', conditionalCoverageTargets: '100,80,90', lineCoverageTargets: '100,85,95', failUnstable: false
             }
             }
 
