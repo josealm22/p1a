@@ -71,14 +71,14 @@ pipeline {
             stage('cobertura') {
             
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                
                 bat '''
                 coverage run --branch --source=app --omit=app\\__init__.py,app\\api.py -m pytest test\\unit 
                 coverage xml
                 '''
                 
                 
-                }
+                
                 cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage.xml', conditionalCoverageTargets: '90, 80, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '95, 85, 0', maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
             }
             }
