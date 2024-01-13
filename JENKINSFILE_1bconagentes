@@ -40,6 +40,7 @@ pipeline {
                         whoami
                         hostname
                         '''
+                        stash name: 'unit-test-results', includes: 'result-unit.xml'
                         }
                     }
                 }
@@ -55,6 +56,7 @@ pipeline {
                             set PYTHONPATH=%WORKSPACE%
                             pytest --junitxml=result-rest.xml test\\rest
                             '''
+                            unstash 'unit-test-results'
                             junit 'result*.xml'
                             }
                         }
