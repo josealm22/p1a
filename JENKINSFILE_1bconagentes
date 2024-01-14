@@ -75,7 +75,7 @@ pipeline {
                             bat '''
                             coverage run --branch --source=app --omit=app\\__init__.py,app\\api.py -m pytest test\\unit
                             coverage xml
-                            coverage report -m > coverage.txt
+                            coverage report -m --skip-covered > coverage.txt
                             type coverage.txt
                             echo %WORKSPACE%
                             whoami
